@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="Record some of my thoughts on programming and life, and share them with you.">
+<meta name="description" content="单层 UITableView&amp;emsp;&amp;emsp;在 iOS 开发中总会用到 UITableView，最常见的 UITableView 的应用场景如下所示：  &amp;emsp;&amp;emsp;首先，来分析一下这个 UI 页面中，每一个 UITableViewCell 的内容，由以下 5 个 UILabel 构成：  日期 酒店名称 入住时间 - 离店时间 酒店地址 入住人   假设内容高度固定(UILa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从 UITableViewCell 嵌套 UITableView 的衍生的一些想法和设计思路">
+<meta property="og:title" content="从 UITableViewCell 嵌套 UITableView 衍生的一些想法和设计思路">
 <meta property="og:url" content="http://yoursite.com/2019/04/01/从-UITableViewCell-嵌套-UITableView-的衍生的一些想法和设计思路/index.html">
 <meta property="og:site_name" content="Blue fatty&#39;s blogs">
-<meta property="og:description" content="Record some of my thoughts on programming and life, and share them with you.">
+<meta property="og:description" content="单层 UITableView&amp;emsp;&amp;emsp;在 iOS 开发中总会用到 UITableView，最常见的 UITableView 的应用场景如下所示：  &amp;emsp;&amp;emsp;首先，来分析一下这个 UI 页面中，每一个 UITableViewCell 的内容，由以下 5 个 UILabel 构成：  日期 酒店名称 入住时间 - 离店时间 酒店地址 入住人   假设内容高度固定(UILa">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-01T06:16:27.335Z">
+<meta property="og:image" content="http://yoursite.com/images/酒店订单.png">
+<meta property="og:image" content="http://yoursite.com/images/酒店订单.png">
+<meta property="og:updated_time" content="2019-04-01T09:40:35.352Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从 UITableViewCell 嵌套 UITableView 的衍生的一些想法和设计思路">
-<meta name="twitter:description" content="Record some of my thoughts on programming and life, and share them with you.">
+<meta name="twitter:title" content="从 UITableViewCell 嵌套 UITableView 衍生的一些想法和设计思路">
+<meta name="twitter:description" content="单层 UITableView&amp;emsp;&amp;emsp;在 iOS 开发中总会用到 UITableView，最常见的 UITableView 的应用场景如下所示：  &amp;emsp;&amp;emsp;首先，来分析一下这个 UI 页面中，每一个 UITableViewCell 的内容，由以下 5 个 UILabel 构成：  日期 酒店名称 入住时间 - 离店时间 酒店地址 入住人   假设内容高度固定(UILa">
+<meta name="twitter:image" content="http://yoursite.com/images/酒店订单.png">
 
 
 
@@ -125,7 +128,7 @@
 
 
 
-  <title>从 UITableViewCell 嵌套 UITableView 的衍生的一些想法和设计思路 | Blue fatty's blogs</title>
+  <title>从 UITableViewCell 嵌套 UITableView 衍生的一些想法和设计思路 | Blue fatty's blogs</title>
   
 
 
@@ -259,7 +262,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从 UITableViewCell 嵌套 UITableView 的衍生的一些想法和设计思路</h1>
+          <h1 class="post-title" itemprop="name headline">从 UITableViewCell 嵌套 UITableView 衍生的一些想法和设计思路</h1>
         
 
         <div class="post-meta">
@@ -289,7 +292,7 @@
 
           
           
-             <span id="/2019/04/01/从-UITableViewCell-嵌套-UITableView-的衍生的一些想法和设计思路/" class="leancloud_visitors" data-flag-title="从 UITableViewCell 嵌套 UITableView 的衍生的一些想法和设计思路">
+             <span id="/2019/04/01/从-UITableViewCell-嵌套-UITableView-的衍生的一些想法和设计思路/" class="leancloud_visitors" data-flag-title="从 UITableViewCell 嵌套 UITableView 衍生的一些想法和设计思路">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -320,7 +323,56 @@
       
 
       
-        
+        <h1 id="单层-UITableView"><a href="#单层-UITableView" class="headerlink" title="单层 UITableView"></a>单层 UITableView</h1><p>&emsp;&emsp;在 iOS 开发中总会用到 UITableView，最常见的 UITableView 的应用场景如下所示：<br> <img src="/images/酒店订单.png" width="300" height="686" alt align="center"></p>
+<p>&emsp;&emsp;首先，来分析一下这个 UI 页面中，每一个 UITableViewCell 的内容，由以下 5 个 UILabel 构成：</p>
+<ol>
+<li>日期</li>
+<li>酒店名称</li>
+<li>入住时间 - 离店时间</li>
+<li>酒店地址</li>
+<li>入住人 </li>
+</ol>
+<h2 id="假设内容高度固定-UILabel-行数为-1-行的情况"><a href="#假设内容高度固定-UILabel-行数为-1-行的情况" class="headerlink" title="假设内容高度固定(UILabel 行数为 1 行的情况)"></a>假设内容高度固定(UILabel 行数为 1 行的情况)</h2><p>&emsp;&emsp;因为每个 UILabel 的高度固定，所以整个 UITabelViewCell 的高度也是一致的，在这种情况下，可以直接设置 UITableView 的单元格高度，使用：</p>
+<pre><code class="objc"><span class="keyword">self</span>.tableView.rowHeight = <span class="number">80</span>; <span class="comment">// 统一设置整个 UITableView 的单元格高度</span>
+</code></pre>
+<p>然后自定义一个继承于 UITableViewCell 的 CustomCell 类，并且实现 UITableView dataSource 的相关方法：</p>
+<pre><code class="objc">- (<span class="built_in">NSInteger</span>)tableView:(<span class="built_in">UITableView</span> *)tableView numberOfRowsInSection:(<span class="built_in">NSInteger</span>)section {
+
+    <span class="keyword">return</span> <span class="keyword">self</span>.dataSource.count; 
+}
+
+- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath {
+
+    <span class="keyword">static</span> <span class="built_in">NSString</span> * ID = <span class="string">@"CustomCellID"</span>;
+    CustomCell * cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    <span class="keyword">if</span> (cell == <span class="literal">nil</span>) {
+        cell = [[CustomCell alloc] initWithStyle:<span class="built_in">UITableViewCellStyleDefault</span> reuseIdentifier:ID];
+    }
+    <span class="keyword">return</span> cell;
+}
+</code></pre>
+<h2 id="假设内容高度自适应-UILabel-行数为-n-行的情况"><a href="#假设内容高度自适应-UILabel-行数为-n-行的情况" class="headerlink" title="假设内容高度自适应(UILabel 行数为 n 行的情况)"></a>假设内容高度自适应(UILabel 行数为 n 行的情况)</h2><p>&emsp;&emsp;针对于：</p>
+<ul>
+<li>小屏幕手机无法展示全部的信息，只能以 … 作为结束</li>
+<li>有时候，需要展示的内容过长，也只能以 … 作为结束<br>&emsp;&emsp;同样以上面的 UI 页面为例子，酒店名称有时候可能需要作为 2 行显示，甚至于 3 行，n 行都是有可能的；同样的，入住时间；酒店地址；入住人；都存在这种可能性，在这种情况下，有两种方法可以解决问题：</li>
+</ul>
+<h3 id="使用约束"><a href="#使用约束" class="headerlink" title="使用约束"></a>使用约束</h3><p>&emsp;&emsp;第一种方法，首先要了解 Autolayout 这个概念，它包含了两个重要的成员：</p>
+<ul>
+<li>约束：对控件位置和大小的限定条件</li>
+<li>参照：对空间设置的约束是相对于哪个视图而言的</li>
+</ul>
+<p>同时，需要切记添加约束的 3 条规则：</p>
+<ul>
+<li>对于两个同层级 View 之间的约束关系，应该添加到它们的父 View 上</li>
+<li>对于两个不同层级 View 之间的约束关系，应该添加到它们最近的共同父 View 上</li>
+<li>对于有层次的两个 View 之间的约束关系，应该添加到层次较高的父 View 上</li>
+</ul>
+<p>对于 xib 中设置约束，需要遵循的规则是：自上而下要有一条完整的约束线，从 cell 的 top 到 cell 的 bottom，同时 cell 中需要自适应高度的 UILabel 的行数都设置为 0 </p>
+<h3 id="引入-frame-模型"><a href="#引入-frame-模型" class="headerlink" title="引入 frame 模型"></a>引入 frame 模型</h3><p>&emsp;&emsp;第二种方法，也是比较古老的方法，但很实用，就是在每一个 cell 的数据模型外面在套一个 frame 模型，这个 frame 模型包含一个数据模型，在 frame 模型的 set 数据模型的方法中，计算出 cell 每一个子控件的位置和大小，cell 中引入 frame 模型进行赋值，这种方法效率更高。</p>
+<h1 id="UITableViewCell-嵌套-UITableView"><a href="#UITableViewCell-嵌套-UITableView" class="headerlink" title="UITableViewCell 嵌套 UITableView"></a>UITableViewCell 嵌套 UITableView</h1><p>&emsp;&emsp;除了上面这个比较简单的 UITableView，还有一些比较复杂的 UITableView，比如<br> <img src="/images/酒店订单.png" width="300" height="686" alt align="center"></p>
+<h2 id="假设高度固定"><a href="#假设高度固定" class="headerlink" title="假设高度固定"></a>假设高度固定</h2><p>&emsp;&emsp;阐述一下先添加后删除的方式并不好</p>
+<h2 id="假设高度不固定"><a href="#假设高度不固定" class="headerlink" title="假设高度不固定"></a>假设高度不固定</h2><p>&emsp;&emsp;引入了 UITableViewCell 嵌套一个 UITableView 的想法，并且引入两个 frame 模型，并且需要提前计算得出第二个 UITableView 的高度，总结：还可以把计算高度的方法和设置数据源的方法抽出来 .. </p>
+
       
     </div>
     
@@ -388,8 +440,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -455,6 +516,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单层-UITableView"><span class="nav-number">1.</span> <span class="nav-text">单层 UITableView</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#假设内容高度固定-UILabel-行数为-1-行的情况"><span class="nav-number">1.1.</span> <span class="nav-text">假设内容高度固定(UILabel 行数为 1 行的情况)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假设内容高度自适应-UILabel-行数为-n-行的情况"><span class="nav-number">1.2.</span> <span class="nav-text">假设内容高度自适应(UILabel 行数为 n 行的情况)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用约束"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入-frame-模型"><span class="nav-number">1.2.2.</span> <span class="nav-text">引入 frame 模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UITableViewCell-嵌套-UITableView"><span class="nav-number">2.</span> <span class="nav-text">UITableViewCell 嵌套 UITableView</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#假设高度固定"><span class="nav-number">2.1.</span> <span class="nav-text">假设高度固定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假设高度不固定"><span class="nav-number">2.2.</span> <span class="nav-text">假设高度不固定</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
